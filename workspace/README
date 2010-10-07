@@ -1,0 +1,14 @@
+Setup up Geotagger project in Eclipse
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Precondition
+------------
+1. Android SDK is setup in Eclipse.
+ - If not, set Android SDK path via Window->Preferences, and then select Android from the left menu. Add the path to the SDK location.
+2. An AVD is created with API level 8 (platform 2.2).
+ - If not, create one via e.g. AVD manager.
+
+Instructions
+------------
+1. Create new Android Project
+2. Select "create project from existing source" and specify the path to Geotagger repository and press Finish.
