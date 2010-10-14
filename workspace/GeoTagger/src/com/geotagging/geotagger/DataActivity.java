@@ -7,6 +7,5 @@ public class DataActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.data_tab);
-
 	}
 }

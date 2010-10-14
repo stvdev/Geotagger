@@ -19,18 +19,16 @@ public class MainActivity extends Activity {
 		Button buttonStart = (Button) findViewById(R.id.button_start);
 		buttonStart.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				// Perform action on clicks
-				// Toast.makeText(MainActivity.this, "GeoTagger Started...",
-				// Toast.LENGTH_SHORT).show();
 				launchLogging();
 			}
 		});
-
+		Log.i(TAG, "RETURN onCreate()");
 	}
 
 	protected void launchLogging() {
 		Log.i(TAG, "ENTER launchLogging()");
 		Intent i = new Intent(this, LoggingActivity.class);
 		startActivity(i);
+		Log.i(TAG, "RETURN launchLogging()");
 	}
 }

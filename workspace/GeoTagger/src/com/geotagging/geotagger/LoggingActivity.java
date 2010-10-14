@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,9 @@ public class LoggingActivity extends Activity {
 	private LocationListener locationListener;
 	static int numOfLocations = 0;
 
+	private DBAdapter db;
+	long dataSetId;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		Log.i(TAG, "ENTER onCreate()");
@@ -35,24 +39,34 @@ public class LoggingActivity extends Activity {
 		Toast.makeText(LoggingActivity.this, "GeoTagger Started...",
 				Toast.LENGTH_SHORT).show();
 
+		// TODO: obtain string from the input field by intent?
+		String dataTitle = "test-1234";
+		db = new DBAdapter(this).open();
+		dataSetId = db.insertDataSet(dataTitle);
+
+		Log.d(TAG, "Inserted " + dataTitle + " with result=" + dataSetId);
+
 		startLocationListener();
 
 		Button buttonStart = (Button) findViewById(R.id.button_stop);
 		buttonStart.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				/* TODO: move text into constant */
+				db.close();
 				Toast.makeText(LoggingActivity.this, "GeoTagger Stopped...",
 						Toast.LENGTH_SHORT).show();
 				launchSummary();
 			}
 		});
-
 	}
 
 	protected void startLocationListener() {
 		Log.i(TAG, "ENTER startLocationListener()");
 		locationManager = (LocationManager) this
 				.getSystemService(Context.LOCATION_SERVICE);
+
+		TextView tv = (TextView) findViewById(id.nmeatext);
+		tv.setText("No NMEA received...");
+
 		locationListener = new LocationListener() {
 			public void onLocationChanged(Location location) {
 				TextView tv = (TextView) findViewById(id.nmeatext);
@@ -61,6 +75,10 @@ public class LoggingActivity extends Activity {
 						+ location.getLongitude() + "\n" + "Altitude:\t"
 						+ location.getAltitude() + "\n" + "Bearing:\t"
 						+ location.getBearing() + "\n" + tv.getText());
+
+				// TBD: should we use transactions instead so it's not
+				// necessary to write constantly towards the db?
+				db.insertPosition(dataSetId, location);
 				numOfLocations++;
 			}
 
