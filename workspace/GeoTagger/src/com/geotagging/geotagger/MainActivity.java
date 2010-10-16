@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class MainActivity extends Activity {
 	public static final String TAG = "MainActivity";
@@ -28,7 +29,12 @@ public class MainActivity extends Activity {
 	protected void launchLogging() {
 		Log.i(TAG, "ENTER launchLogging()");
 		Intent i = new Intent(this, LoggingActivity.class);
+		Bundle b = new Bundle();
+		EditText et = (EditText) findViewById(R.id.entry);
+		b.putString("title", et.getText().toString());
+		i.putExtras(b);
 		startActivity(i);
+		finish();
 		Log.i(TAG, "RETURN launchLogging()");
 	}
 }

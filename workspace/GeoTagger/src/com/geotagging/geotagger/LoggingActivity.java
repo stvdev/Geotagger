@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,9 +37,16 @@ public class LoggingActivity extends Activity {
 		/* TODO: move text into constant */
 		Toast.makeText(LoggingActivity.this, "GeoTagger Started...",
 				Toast.LENGTH_SHORT).show();
-
-		// TODO: obtain string from the input field by intent?
-		String dataTitle = "test-1234";
+		
+		
+		Bundle b = getIntent().getExtras();
+		String dataTitle;
+		dataTitle = b.getString("title");
+		if(dataTitle == "")
+		{
+			dataTitle = "2010-10-14";
+		}
+		
 		db = new DBAdapter(this).open();
 		dataSetId = db.insertDataSet(dataTitle);
 

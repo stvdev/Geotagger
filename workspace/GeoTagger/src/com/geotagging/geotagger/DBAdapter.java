@@ -87,6 +87,7 @@ public class DBAdapter {
 
 	// ---insert a new position into the database---
 	public long insertPosition(long dataset, Location loc) {
+		Log.d(TAG, "Altitude:" + loc.getAltitude());
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_DATASETID, dataset);
 		initialValues.put(KEY_LATITUDE, loc.getLatitude());
