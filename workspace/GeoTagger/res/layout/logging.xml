@@ -18,6 +18,4 @@
 		android:layout_height="fill_parent" android:clickable="false"
 		android:apiKey="D5:C4:7F:1D:30:F3:DE:6D:BC:C9:9D:C8:1F:A3:95:9A" />
 	-->
-
-
 </LinearLayout>

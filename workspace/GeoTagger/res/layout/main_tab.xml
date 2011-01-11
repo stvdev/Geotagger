@@ -12,8 +12,13 @@
 	<Button android:id="@+id/button_start" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:text="Start" />
 
+	<RadioButton android:id="@+id/RadioButton01"
+		android:layout_width="wrap_content" android:text="Display gps status here."
+		android:layout_height="wrap_content" android:clickable="false" />
+
 	<TextView android:id="@+id/nmeatext" android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:textSize="10sp"
-		android:textColor="#ffffff" android:background="#000000"
-		android:layout_below="@id/button_start" />
+		android:text="creds goes here" android:textColor="#ffffff"
+		android:background="#000000" android:layout_below="@id/button_start" />
+
 </LinearLayout>

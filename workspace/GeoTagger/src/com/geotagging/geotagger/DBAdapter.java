@@ -10,8 +10,13 @@ import android.location.Location;
 import android.util.Log;
 
 public class DBAdapter {
-	public static final String KEY_DATASETID = "datasetid";
-	public static final String KEY_POSID = "positionid";
+	/*
+	 * See CursorAdapter doc. for further explanation to renaming 
+	 * columns to _id.
+	 */
+	public static final String KEY_DATASETID = "_id";
+	public static final String KEY_POSID = "_id";
+
 	public static final String KEY_NAME = "name";
 	public static final String KEY_TIME = "timestamp";
 	public static final String KEY_LATITUDE = "latitude";
@@ -79,7 +84,7 @@ public class DBAdapter {
 	}
 
 	// ---insert a new dataset into the database---
-	public long insertDataSet(String name) {
+	public long insertDataSet(String name) throws SQLException {
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_NAME, name);
 		return db.insert(DB_SETS_TABLE, null, initialValues);
@@ -87,7 +92,11 @@ public class DBAdapter {
 
 	// ---insert a new position into the database---
 	public long insertPosition(long dataset, Location loc) {
-		Log.d(TAG, "Altitude:" + loc.getAltitude());
+		Log.d(TAG,
+				"Latitude:" + loc.getLatitude() + ", Longitude: "
+						+ loc.getLongitude() + ", Altitude:"
+						+ loc.getAltitude());
+
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_DATASETID, dataset);
 		initialValues.put(KEY_LATITUDE, loc.getLatitude());
@@ -100,19 +109,17 @@ public class DBAdapter {
 	// ---deletes an entire dataset---
 	public boolean deleteDataSet(int dataset) {
 		if ((db.delete(DB_SETS_TABLE, KEY_DATASETID + "=" + dataset, null) > 0)
-				&& (db
-						.delete(DB_POS_TABLE, KEY_DATASETID + "=" + dataset,
-								null) > 0)) {
+				&& (db.delete(DB_POS_TABLE, KEY_DATASETID + "=" + dataset, null) > 0)) {
 			return true;
 		}
 		return false;
 	}
 
 	// ---retrieves all the datasets---
-	public Cursor getAllDataSets() {
+	public Cursor getAllDataSets() throws SQLException {
 		return db.query(DB_SETS_TABLE,
 				new String[] { KEY_DATASETID, KEY_NAME }, null, null, null,
-				null, null);
+				null, "_id DESC");
 	}
 
 	// ---retrieves all positions in a particular dataset---

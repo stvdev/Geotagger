@@ -20,6 +20,7 @@ public final class R {
         public static final int icon=0x7f020006;
     }
     public static final class id {
+        public static final int RadioButton01=0x7f050006;
         public static final int button_start=0x7f050005;
         public static final int button_stop=0x7f050001;
         public static final int checkbox=0x7f050003;

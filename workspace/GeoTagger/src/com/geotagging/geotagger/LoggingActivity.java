@@ -3,6 +3,7 @@ package com.geotagging.geotagger;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.SQLException;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -17,39 +18,49 @@ import com.geotagging.geotagger.R.id;
 
 public class LoggingActivity extends Activity {
 	public static final String TAG = "Logging";
-	public static final long TIME_INTERVAL = 2000; // update interval in ms
-	public static final float MIN_DISTANCE = 0; // update interval in m
+	public static final long TIME_INTERVAL = 2000; 	// update interval in ms
+	public static final float MIN_DISTANCE = 0; 	// update interval in m
 
 	private LocationManager locationManager;
 	private LocationListener locationListener;
 	static int numOfLocations = 0;
 
 	private DBAdapter db;
-	long dataSetId;
+	private long dataSetId = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.i(TAG, "ENTER onCreate()");
+		String dataTitle;
+		Bundle b;
+		
 		Log.v(TAG, "Activity State: onCreate()");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.logging);
 
-		/* TODO: move text into constant */
-		Toast.makeText(LoggingActivity.this, "GeoTagger Started...",
+		Toast.makeText(this, "GeoTagger Started...",
 				Toast.LENGTH_SHORT).show();
-		
-		
-		Bundle b = getIntent().getExtras();
-		String dataTitle;
+
+		// obtain title from bundle
+		b = getIntent().getExtras();
 		dataTitle = b.getString("title");
-		if(dataTitle == "")
+		
+		if (dataTitle == "") {
+			// if no title have been submitted, set default title to current time
+			dataTitle = "" + System.currentTimeMillis();
+		}
+
+		try
 		{
-			dataTitle = "2010-10-14";
+			db = new DBAdapter(this).open();
+			dataSetId = db.insertDataSet(dataTitle);
+		} catch(SQLException e)
+		{
+			Log.e(TAG, "SQL Exception:\n" + e.fillInStackTrace());	
+			Toast.makeText(this, "GeoTagger unable to store in database...",
+					Toast.LENGTH_SHORT).show();
+			return;
 		}
 		
-		db = new DBAdapter(this).open();
-		dataSetId = db.insertDataSet(dataTitle);
-
 		Log.d(TAG, "Inserted " + dataTitle + " with result=" + dataSetId);
 
 		startLocationListener();
@@ -72,9 +83,10 @@ public class LoggingActivity extends Activity {
 
 		TextView tv = (TextView) findViewById(id.nmeatext);
 		tv.setText("No NMEA received...");
-
+		
 		locationListener = new LocationListener() {
 			public void onLocationChanged(Location location) {
+				
 				TextView tv = (TextView) findViewById(id.nmeatext);
 				tv.setText("[" + numOfLocations + "] " + "Latitude:\t"
 						+ location.getLatitude() + "\n" + "Longitude:\t"
@@ -86,25 +98,26 @@ public class LoggingActivity extends Activity {
 				// necessary to write constantly towards the db?
 				db.insertPosition(dataSetId, location);
 				numOfLocations++;
-			}
 
+			}
+			
 			public void onStatusChanged(String provider, int status,
 					Bundle extras) {
 			}
 
 			public void onProviderEnabled(String provider) {
-				/* TODO: move text into constant */
 				Toast.makeText(LoggingActivity.this,
 						"Location is now available...", Toast.LENGTH_SHORT)
 						.show();
 			}
 
 			public void onProviderDisabled(String provider) {
-				/* TODO: move text into constant */
 				Toast.makeText(LoggingActivity.this,
 						"Location no longer available...", Toast.LENGTH_SHORT)
 						.show();
 			}
+			
+			
 		};
 
 		// Register the listener with the Location Manager to receive location
@@ -122,12 +135,11 @@ public class LoggingActivity extends Activity {
 
 	protected void launchSummary() {
 		Log.i(TAG, "ENTER launchSummary()");
-
-		// Intent i = new Intent(this, Logging.class);
-		// startActivity(i);
+		
 		stopLocationListener();
-
 		Intent i = new Intent(this, GeoTagger.class);
 		startActivity(i);
+
+		Log.i(TAG, "RETURN launchSummary()");
 	}
 }
