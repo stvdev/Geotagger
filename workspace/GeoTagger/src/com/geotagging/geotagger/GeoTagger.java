@@ -1,34 +1,37 @@
 package com.geotagging.geotagger;
 
-import android.app.TabActivity;
+import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.widget.TabHost;
+import android.os.Handler;
+import android.view.Window;
+import android.view.WindowManager;
 
-public class GeoTagger extends TabActivity {
+public class GeoTagger extends Activity {
+	private int delay = 4000;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.tabs);
 
-		Resources res = getResources(); // Resource object to get Drawables
-		TabHost tabHost = getTabHost(); // The activity TabHost
-		TabHost.TabSpec spec; // Resusable TabSpec for each tab
-		Intent intent; // Reusable Intent for each tab
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE); // (NEW)
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN); // (NEW)
+		
+		
 
-		// Create an Intent to launch an Activity for the tab (to be reused)
-		intent = new Intent().setClass(this, MainActivity.class);
-		spec = tabHost.newTabSpec("main").setIndicator("Main",
-				res.getDrawable(R.drawable.ic_tab_main)).setContent(intent);
-		tabHost.addTab(spec);
+		setContentView(R.layout.splash);
+		
+		
 
-		intent = new Intent().setClass(this, DataActivity.class);
-		spec = tabHost.newTabSpec("data").setIndicator("Data",
-				res.getDrawable(R.drawable.ic_tab_data)).setContent(intent);
-		tabHost.addTab(spec);
-
-		tabHost.setCurrentTab(0);
+		 Handler handler = new Handler();
+		 handler.postDelayed(new Runnable() {
+		 public void run() {
+		 Intent i = new Intent(GeoTagger.this, Main.class);
+		 startActivity(i);
+		 finish();
+		 }
+		 }, delay);
 	}
 }

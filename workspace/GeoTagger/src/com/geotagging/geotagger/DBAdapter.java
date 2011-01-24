@@ -15,7 +15,7 @@ public class DBAdapter {
 	 * columns to _id.
 	 */
 	public static final String KEY_DATASETID = "_id";
-	public static final String KEY_POSID = "_id";
+	public static final String KEY_POSID = "position_id";
 
 	public static final String KEY_NAME = "name";
 	public static final String KEY_TIME = "timestamp";
