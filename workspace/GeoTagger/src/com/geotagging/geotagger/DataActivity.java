@@ -1,16 +1,20 @@
 package com.geotagging.geotagger;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class DataActivity extends ListActivity {
 	private DBAdapter db;
@@ -45,57 +49,7 @@ public class DataActivity extends ListActivity {
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Cursor foo = (Cursor) adapter.getItem(position);
-				String name = foo.getString(foo
-						.getColumnIndex(DBAdapter.KEY_NAME));
-				Toast.makeText(DataActivity.this, "Exporting..." + name,
-						Toast.LENGTH_SHORT).show();
-				Cursor dataSetPositions = getPositions(id);
-				try {
-					FileHandler fh = new FileHandler();
-					if (!fh.WriteFile(1, dataSetPositions, name)) {
-						Toast.makeText(DataActivity.this,
-								"Unable to export! Check your storage.",
-								Toast.LENGTH_LONG).show();
-
-					}
-
-				} catch (Exception e) {
-					Log.e(TAG, "argh file failure! " + e.fillInStackTrace());
-				}
-			}
-		});
-
-		lv.setOnItemLongClickListener(new OnItemLongClickListener() {
-			public boolean onItemLongClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				Cursor foo = (Cursor) adapter.getItem(position);
-				String name = foo.getString(foo
-						.getColumnIndex(DBAdapter.KEY_NAME));
-				Toast.makeText(
-						DataActivity.this,
-						"Deleting dataset... Hope that's what you intended :-)"
-								+ name, Toast.LENGTH_SHORT).show();
-				try {
-					FileHandler fh = new FileHandler();
-					db.open();
-					if (!fh.deleteGpxFile(name) && !db.deleteDataSet((int) id)) {
-						Toast.makeText(DataActivity.this, "Unable to delete!",
-								Toast.LENGTH_LONG).show();
-
-					}
-					else
-					{
-						// force update of view adapter
-						adapter.notifyDataSetChanged();
-					}
-					db.close();
-				} catch (Exception e) {
-					Log
-							.e(TAG, "argh deletion failure! "
-									+ e.fillInStackTrace());
-				}
-				return false;
+				displayAction(id, position);				
 			}
 		});
 	}
@@ -107,4 +61,168 @@ public class DataActivity extends ListActivity {
 		db.close();
 		return positions;
 	}
+	
+	public boolean onCreateOptionsMenu(Menu menu) {
+		  MenuInflater inflater = getMenuInflater();
+		  inflater.inflate(R.menu.button_menu, menu);
+		  return true;
+		}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	    case R.id.help:
+	        displayHelp();
+	        return true;
+	    case R.id.about:
+	        displayAbout();
+	        return true;
+	    default:
+	        return super.onOptionsItemSelected(item);
+	    }
+	}
+
+	private void displayHelp(){
+		AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
+		alt_bld.setMessage("\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n")
+	 		.setCancelable(true)
+	 		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+	 	public void onClick(DialogInterface dialog, int id) {
+	 	// Action for 'Yes' Button
+	 	dialog.cancel();
+	 	}
+	 	});
+	 	AlertDialog alert = alt_bld.create();
+	 	// Title for AlertDialog
+	 	alert.setTitle("Help");
+	 	// Icon for AlertDialog
+	 	alert.setIcon(R.drawable.ic_tab_data_grey);
+	 	alert.show(); 	
+	}
+
+	private void displayAbout(){
+		AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
+		alt_bld.setMessage("\nCombitech GPS Logger 2.0\n\nIt is twice as good as v1.0.")
+	 		.setCancelable(true)
+	 		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+	 	public void onClick(DialogInterface dialog, int id) {
+	 	// Action for 'Yes' Button
+	 	dialog.cancel();
+	 	}
+	 	});
+	 	AlertDialog alert = alt_bld.create();
+	 	// Title for AlertDialog
+	 	alert.setTitle("About CGLv2.0");
+	 	// Icon for AlertDialog
+	 	alert.setIcon(R.drawable.ic_tab_data_grey);
+	 	alert.show(); 
+	}
+	
+	private void displayAction(final long dsid, final int dsposition){
+		AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
+		alt_bld.setMessage("Your choice.")
+	 		.setCancelable(true)
+	 		.setPositiveButton("Export", new DialogInterface.OnClickListener() {
+	 	public void onClick(DialogInterface dialog, int id) {
+	 	// Action for 'Yes' Button
+	 	exportDS(dsid, dsposition);
+	 	dialog.cancel();
+	 	}
+		 	});
+	 	alt_bld.setNeutralButton("Delete", new DialogInterface.OnClickListener() {
+		 	public void onClick(DialogInterface dialog, int id) {
+		 	// Action for 'Yes' Button
+		 	displayConfirmation(dsid, dsposition);
+		 	dialog.cancel();
+		 	}
+	 	});
+		 	alt_bld.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+	 	public void onClick(DialogInterface dialog, int id) {
+	 	// Action for 'Yes' Button
+	 	dialog.cancel();
+	 	}
+	 	});
+	 	AlertDialog alert = alt_bld.create();
+	 	// Title for AlertDialog
+	 	alert.setTitle("Action");
+	 	// Icon for AlertDialog
+	 	alert.setIcon(R.drawable.ic_tab_data_grey);
+	 	alert.show(); 
+	}
+	
+	public void delDS(long id, int position){
+		Cursor foo = (Cursor) adapter.getItem(position);
+		String name = foo.getString(foo
+				.getColumnIndex(DBAdapter.KEY_NAME));
+		Toast.makeText(
+				DataActivity.this,
+				"Deleting " + name,
+				Toast.LENGTH_SHORT).show();
+		try {
+			FileHandler fh = new FileHandler();
+			db.open();
+			if (!fh.deleteGpxFile(name) && !db.deleteDataSet((int) id)) {
+				Toast.makeText(DataActivity.this, "Unable to delete!",
+						Toast.LENGTH_LONG).show();
+
+			}
+			else
+			{
+				// force update of view adapter
+				adapter.notifyDataSetChanged();
+			}
+			db.close();
+		} catch (Exception e) {
+			Log
+					.e(TAG, "argh deletion failure! "
+							+ e.fillInStackTrace());
+		}
+	}
+
+	private void exportDS(long id, int position){
+		Cursor foo = (Cursor) adapter.getItem(position);
+		String name = foo.getString(foo
+				.getColumnIndex(DBAdapter.KEY_NAME));
+		Toast.makeText(DataActivity.this, "Exporting " + name,
+				Toast.LENGTH_SHORT).show();
+		Cursor dataSetPositions = getPositions(id);
+		try {
+			FileHandler fh = new FileHandler();
+			if (!fh.WriteFile(1, dataSetPositions, name)) {
+				Toast.makeText(DataActivity.this,
+						"Unable to export! Check your storage.",
+						Toast.LENGTH_LONG).show();
+			}
+
+		} catch (Exception e) {
+			Log.e(TAG, "argh file failure! " + e.fillInStackTrace());
+		}		
+	}
+	
+	private void displayConfirmation(final long dsid, final int dsposition){
+		AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
+		alt_bld.setMessage("This can not be undone!")
+	 		.setCancelable(true)
+	 		.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+		 	public void onClick(DialogInterface dialog, int id) {
+		 	// Action for 'Yes' Button
+		 	delDS(dsid, dsposition);
+		 	dialog.cancel();
+		 	}
+	 	});
+		 	alt_bld.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+	 	public void onClick(DialogInterface dialog, int id) {
+	 	// Action for 'Yes' Button
+	 	dialog.cancel();
+	 	}
+	 	});
+	 	AlertDialog alert = alt_bld.create();
+	 	// Title for AlertDialog
+	 	alert.setTitle("Are you sure?");
+	 	// Icon for AlertDialog
+	 	alert.setIcon(R.drawable.ic_tab_data_grey);
+	 	alert.show(); 
+	}
+
 }

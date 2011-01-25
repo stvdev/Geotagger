@@ -6,7 +6,7 @@
 	<com.google.android.maps.MapView
 		android:id="@+id/mapview" android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:clickable="true"
-		android:apiKey="0Q45im3xNOWv6MjCGC4p8DZUN16fbRLlOCkEPXA" />
+		android:apiKey="" />
 	
 	<Button android:id="@+id/button_stop"
 		android:layout_centerHorizontal="true" android:layout_marginTop="13dp"
