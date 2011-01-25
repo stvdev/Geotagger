@@ -13,17 +13,16 @@ public final class R {
     public static final class drawable {
         public static final int about_icon=0x7f020000;
         public static final int bg=0x7f020001;
-        public static final int currpos=0x7f020002;
-        public static final int dot=0x7f020003;
-        public static final int help_icon=0x7f020004;
-        public static final int ic_tab_data=0x7f020005;
-        public static final int ic_tab_data_grey=0x7f020006;
-        public static final int ic_tab_data_white=0x7f020007;
-        public static final int ic_tab_main=0x7f020008;
-        public static final int ic_tab_main_grey=0x7f020009;
-        public static final int ic_tab_main_white=0x7f02000a;
-        public static final int icon=0x7f02000b;
-        public static final int splash=0x7f02000c;
+        public static final int dot=0x7f020002;
+        public static final int help_icon=0x7f020003;
+        public static final int ic_tab_data=0x7f020004;
+        public static final int ic_tab_data_grey=0x7f020005;
+        public static final int ic_tab_data_white=0x7f020006;
+        public static final int ic_tab_main=0x7f020007;
+        public static final int ic_tab_main_grey=0x7f020008;
+        public static final int ic_tab_main_white=0x7f020009;
+        public static final int icon=0x7f02000a;
+        public static final int splash=0x7f02000b;
     }
     public static final class id {
         public static final int about=0x7f070009;

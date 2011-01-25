@@ -11,8 +11,8 @@ import android.util.Log;
 
 public class DBAdapter {
 	/*
-	 * See CursorAdapter doc. for further explanation to renaming 
-	 * columns to _id.
+	 * See CursorAdapter doc. for further explanation to renaming columns to
+	 * _id.
 	 */
 	public static final String KEY_DATASETID = "_id";
 	public static final String KEY_POSID = "position_id";
@@ -51,18 +51,23 @@ public class DBAdapter {
 	}
 
 	private static class DatabaseHelper extends SQLiteOpenHelper {
+		private static final String TAG = "DatabaseHelper";
+
 		DatabaseHelper(Context context) {
 			super(context, DB_NAME, null, DB_VER);
 		}
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
+			Log.v(TAG, "Enter onCreate()");
 			db.execSQL(DB_CREATE_SETS_TABLE);
 			db.execSQL(DB_CREATE_POS_TABLE);
 		}
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+			Log.v(TAG, "Enter onUpgrade()");
+
 			// TODO: Move text-strings to xml
 			Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
 					+ newVersion + ", which will destroy all old data");
@@ -74,17 +79,20 @@ public class DBAdapter {
 
 	// ---opens the database---
 	public DBAdapter open() throws SQLException {
+		Log.v(TAG, "Enter open()");
 		db = DBHelper.getWritableDatabase();
 		return this;
 	}
 
 	// ---closes the database---
 	public void close() {
+		Log.v(TAG, "Enter close()");
 		DBHelper.close();
 	}
 
 	// ---insert a new dataset into the database---
 	public long insertDataSet(String name) throws SQLException {
+		Log.v(TAG, "Enter insertDataSet()");
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_NAME, name);
 		return db.insert(DB_SETS_TABLE, null, initialValues);
@@ -92,6 +100,8 @@ public class DBAdapter {
 
 	// ---insert a new position into the database---
 	public long insertPosition(long dataset, Location loc) {
+		Log.v(TAG, "Enter insertPosition()");
+
 		Log.d(TAG,
 				"Latitude:" + loc.getLatitude() + ", Longitude: "
 						+ loc.getLongitude() + ", Altitude:"
@@ -108,15 +118,22 @@ public class DBAdapter {
 
 	// ---deletes an entire dataset---
 	public boolean deleteDataSet(int dataset) {
-		if ((db.delete(DB_SETS_TABLE, KEY_DATASETID + "=" + dataset, null) > 0)
-				&& (db.delete(DB_POS_TABLE, KEY_DATASETID + "=" + dataset, null) > 0)) {
+		Log.v(TAG, "Enter deleteDataSet()");
+
+		if (db.delete(DB_SETS_TABLE, KEY_DATASETID + "=" + dataset, null) > 0)
+		{
+			// delete all related position data to dataset
+			db.delete(DB_POS_TABLE, KEY_DATASETID + "=" + dataset, null);
 			return true;
 		}
+		
 		return false;
 	}
 
 	// ---retrieves all the datasets---
 	public Cursor getAllDataSets() throws SQLException {
+		Log.v(TAG, "Enter getAllDataSets()");
+
 		return db.query(DB_SETS_TABLE,
 				new String[] { KEY_DATASETID, KEY_NAME }, null, null, null,
 				null, "_id DESC");
@@ -124,6 +141,8 @@ public class DBAdapter {
 
 	// ---retrieves all positions in a particular dataset---
 	public Cursor getPositionByDataSet(int dataset) throws SQLException {
+		Log.v(TAG, "Enter getPositionByDataSet()");
+
 		Cursor mCursor = db.query(true, DB_POS_TABLE, new String[] {
 				KEY_LATITUDE, KEY_LONGITUDE, KEY_ALTITUDE, KEY_TIME },
 				KEY_DATASETID + "=" + dataset, null, null, null, null, null);
@@ -135,6 +154,8 @@ public class DBAdapter {
 
 	// ---updates a dataset---
 	public boolean updateDataSet(int dataset, String name) {
+		Log.v(TAG, "Enter updateDataSet()");
+
 		ContentValues args = new ContentValues();
 		args.put(KEY_NAME, name);
 		return db.update(DB_SETS_TABLE, args, KEY_DATASETID + "=" + dataset,

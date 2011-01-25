@@ -18,9 +18,10 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class DataActivity extends ListActivity {
 	private DBAdapter db;
+	private Cursor c;
 	protected SimpleCursorAdapter adapter;
 	public static final String TAG = "DataActivity";
-
+	
 	public void onCreate(Bundle savedInstanceState) {
 		Log.v(TAG, "Activity State: onCreate()");
 
@@ -30,15 +31,13 @@ public class DataActivity extends ListActivity {
 		// Get all of the notes from the database and create the item list
 		try {
 			db = new DBAdapter(this).open();
-			Cursor c = db.getAllDataSets();
+			c = db.getAllDataSets();
 			startManagingCursor(c);
 			adapter = new SimpleCursorAdapter(this,
 					android.R.layout.two_line_list_item, c, new String[] {
 							DBAdapter.KEY_DATASETID, DBAdapter.KEY_NAME },
 					new int[] { android.R.id.text2, android.R.id.text1 });
 			setListAdapter(adapter);
-			db.close();
-
 		} catch (Exception e) {
 			Log.e(TAG, "argh cursor failure! " + e.fillInStackTrace());
 		}
@@ -53,12 +52,9 @@ public class DataActivity extends ListActivity {
 			}
 		});
 	}
-
+		
 	protected Cursor getPositions(long id) {
-
-		db.open();
 		Cursor positions = db.getPositionByDataSet((int) id);
-		db.close();
 		return positions;
 	}
 	
@@ -161,21 +157,21 @@ public class DataActivity extends ListActivity {
 				Toast.LENGTH_SHORT).show();
 		try {
 			FileHandler fh = new FileHandler();
-			db.open();
-			if (!fh.deleteGpxFile(name) && !db.deleteDataSet((int) id)) {
-				Toast.makeText(DataActivity.this, "Unable to delete!",
-						Toast.LENGTH_LONG).show();
-
-			}
-			else
+			if(!fh.deleteGpxFile(name))
 			{
-				// force update of view adapter
-				adapter.notifyDataSetChanged();
+				Toast.makeText(DataActivity.this, "Unable to delete file!",
+						Toast.LENGTH_LONG).show();
 			}
-			db.close();
+			if(!db.deleteDataSet((int) id)) {
+				Toast.makeText(DataActivity.this, "Unable to delete db elem!",
+						Toast.LENGTH_LONG).show();
+			}
+
+			// update cursor with latest data
+			c.requery();						
+
 		} catch (Exception e) {
-			Log
-					.e(TAG, "argh deletion failure! "
+			Log.e(TAG, "argh deletion failure! "
 							+ e.fillInStackTrace());
 		}
 	}
@@ -224,5 +220,4 @@ public class DataActivity extends ListActivity {
 	 	alert.setIcon(R.drawable.ic_tab_data_grey);
 	 	alert.show(); 
 	}
-
 }
