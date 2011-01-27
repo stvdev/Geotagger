@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -74,12 +75,10 @@ public class DataActivity extends ListActivity {
 		case R.id.startlogging:
 			intent = new Intent().setClass(this, MainActivity.class);
 			startActivity(intent);
-			finish();
 			return true;
 		case R.id.datasets:
 			intent = new Intent().setClass(this, DataActivity.class);
 			startActivity(intent);
-			finish();
 			return true;
 		case R.id.help:
 			displayHelp();
@@ -203,6 +202,12 @@ public class DataActivity extends ListActivity {
 			if (!fh.WriteFile(1, dataSetPositions, name)) {
 				Toast.makeText(DataActivity.this,
 						"Unable to export! Check your storage.",
+						Toast.LENGTH_LONG).show();
+			}
+			else {
+			    String fileName = "CGL_" + name + ".gpx";
+			    String path = Environment.DIRECTORY_DOWNLOADS;
+				Toast.makeText(DataActivity.this, "Exported to file: " + path + "\\" + fileName,
 						Toast.LENGTH_LONG).show();
 			}
 
