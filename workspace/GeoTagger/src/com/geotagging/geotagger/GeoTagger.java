@@ -22,7 +22,7 @@ public class GeoTagger extends Activity {
 		Handler handler = new Handler();
 		handler.postDelayed(new Runnable() {
 			public void run() {
-				Intent i = new Intent(GeoTagger.this, TabManager.class);
+				Intent i = new Intent(GeoTagger.this, MainActivity.class);
 				startActivity(i);
 				finish();
 			}

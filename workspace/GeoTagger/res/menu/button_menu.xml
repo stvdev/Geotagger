@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/startlogging"
+          android:icon="@drawable/ic_menu_compass"
+          android:title="Start Logging" 
+          android:alphabeticShortcut="s" />
+    <item android:id="@+id/datasets"
+          android:icon="@drawable/ic_menu_archive"
+          android:title="Datasets" 
+          android:alphabeticShortcut="d" />
     <item android:id="@+id/help"
-          android:icon="@drawable/ic_tab_main_grey"
+          android:icon="@drawable/ic_menu_help"
           android:title="Help" 
           android:alphabeticShortcut="h" />
     <item android:id="@+id/about"
-          android:icon="@drawable/ic_tab_main_grey"
+          android:icon="@drawable/ic_menu_info_details"
           android:title="About" 
           android:alphabeticShortcut="a" />
 </menu>

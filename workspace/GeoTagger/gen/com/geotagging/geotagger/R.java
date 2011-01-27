@@ -13,33 +13,34 @@ public final class R {
     public static final class drawable {
         public static final int about_icon=0x7f020000;
         public static final int bg=0x7f020001;
-        public static final int dot=0x7f020002;
-        public static final int help_icon=0x7f020003;
-        public static final int ic_tab_data=0x7f020004;
-        public static final int ic_tab_data_grey=0x7f020005;
-        public static final int ic_tab_data_white=0x7f020006;
-        public static final int ic_tab_main=0x7f020007;
-        public static final int ic_tab_main_grey=0x7f020008;
-        public static final int ic_tab_main_white=0x7f020009;
-        public static final int icon=0x7f02000a;
-        public static final int splash=0x7f02000b;
+        public static final int bg_blue=0x7f020002;
+        public static final int dot=0x7f020003;
+        public static final int help_icon=0x7f020004;
+        public static final int ic_menu_archive=0x7f020005;
+        public static final int ic_menu_compass=0x7f020006;
+        public static final int ic_menu_help=0x7f020007;
+        public static final int ic_menu_info_details=0x7f020008;
+        public static final int maps=0x7f020009;
+        public static final int splash=0x7f02000a;
     }
     public static final class id {
-        public static final int about=0x7f070009;
+        public static final int about=0x7f07000b;
         public static final int button_start=0x7f070006;
         public static final int button_stop=0x7f070002;
         public static final int checkbox=0x7f070007;
+        public static final int datasets=0x7f070009;
         public static final int entry=0x7f070005;
-        public static final int help=0x7f070008;
+        public static final int help=0x7f07000a;
         public static final int main=0x7f070003;
         public static final int mainlayout=0x7f070000;
         public static final int mapview=0x7f070001;
+        public static final int startlogging=0x7f070008;
         public static final int text=0x7f070004;
     }
     public static final class layout {
-        public static final int data_tab=0x7f030000;
+        public static final int data=0x7f030000;
         public static final int logging=0x7f030001;
-        public static final int main_tab=0x7f030002;
+        public static final int main=0x7f030002;
         public static final int splash=0x7f030003;
         public static final int tabs=0x7f030004;
     }
