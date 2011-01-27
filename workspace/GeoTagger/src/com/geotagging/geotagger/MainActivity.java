@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	public static final String TAG = "MainActivity";
@@ -28,6 +30,16 @@ public class MainActivity extends Activity {
 				launchLogging();
 			}
 		});
+
+		try {
+			LocationManager locManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+			if (!locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+				enableGpsAlert();
+			}
+		} catch (Exception e) {
+			Log.e(TAG, "argh locationManager failure! " + e.fillInStackTrace());
+		}
 		Log.i(TAG, "RETURN onCreate()");
 	}
 
@@ -47,12 +59,24 @@ public class MainActivity extends Activity {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.button_menu, menu);
 		return true;
+
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent;
 		// Handle item selection
 		switch (item.getItemId()) {
+		case R.id.startlogging:
+			intent = new Intent().setClass(this, MainActivity.class);
+			startActivity(intent);
+			finish();
+			return true;
+		case R.id.datasets:
+			intent = new Intent().setClass(this, DataActivity.class);
+			startActivity(intent);
+			finish();
+			return true;
 		case R.id.help:
 			displayHelp();
 			return true;
@@ -104,4 +128,29 @@ public class MainActivity extends Activity {
 		alert.show();
 	}
 
+	private void enableGpsAlert() {
+		AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
+		alt_bld.setMessage("Your GPS is currently disabled. Would you like to enable it?")
+				.setCancelable(true)
+				.setPositiveButton("Enable GPS",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								Intent gpsOptionsIntent = new Intent(
+										android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+								startActivity(gpsOptionsIntent);
+							}
+						});
+		
+		alt_bld.setNegativeButton("Do nothing",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						Toast.makeText(MainActivity.this, "This app suddently becomes less meaningfull...",
+								Toast.LENGTH_LONG).show();
+						dialog.cancel();
+					}
+				});
+		AlertDialog alert = alt_bld.create();
+		alert.setIcon(R.drawable.ic_menu_help);
+		alert.show();
+	}
 }
