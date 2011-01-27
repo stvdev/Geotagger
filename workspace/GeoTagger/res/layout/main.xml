@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical"
+	android:background="@drawable/bg_blue"
+	android:id="@+id/main"
+	android:padding="10sp">
+	<TextView android:id="@+id/text" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:textSize="20sp"
+		android:text="Enter a Log Title:" android:paddingTop="30sp" 
+		android:textColor="#000000" />
+	<EditText android:id="@+id/entry" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:textSize="7sp"
+		android:background="@android:drawable/editbox_background"
+		android:layout_below="@id/text" android:layout_marginTop="10sp" />
+	<Button android:id="@+id/button_start" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="Start Logging" android:layout_marginTop="10sp" />
+</LinearLayout>
