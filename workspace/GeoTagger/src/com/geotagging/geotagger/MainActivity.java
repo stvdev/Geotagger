@@ -1,5 +1,8 @@
 package com.geotagging.geotagger;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -36,7 +39,16 @@ public class MainActivity extends Activity {
 		Intent i = new Intent(this, LoggingActivity.class);
 		Bundle b = new Bundle();
 		EditText et = (EditText) findViewById(R.id.entry);
-		b.putString("title", et.getText().toString());
+		if (et.getText().toString().equals(""))
+		{
+			SimpleDateFormat date = new SimpleDateFormat("yyyyMMdd'_'HH'_'mm'_'ss");
+			Date now = new Date();
+			b.putString("title", date.format(now));
+		}
+		else
+		{
+			b.putString("title", et.getText().toString());
+		}
 		i.putExtras(b);
 		startActivity(i);
 		finish();
@@ -51,9 +63,18 @@ public class MainActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent;
 		// Handle item selection
 		switch (item.getItemId()) {
-		case R.id.help:
+		case R.id.startlogging:
+			intent = new Intent().setClass(this, MainActivity.class);
+			startActivity(intent);
+			return true;
+		case R.id.datasets:
+			intent = new Intent().setClass(this, DataActivity.class);
+			startActivity(intent);
+			return true;
+			case R.id.help:
 			displayHelp();
 			return true;
 		case R.id.about:
