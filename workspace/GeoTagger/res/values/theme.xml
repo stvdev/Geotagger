@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
  <resources>
-    <style name="Rasmus" parent="android:Theme">
-        <item name="android:windowBackground">@drawable/bg</item>
+    <style name="CGLTheme" parent="android:Theme.Light">
+        <item name="android:windowBackground">@drawable/bg_blue</item>
      </style>
  </resources>

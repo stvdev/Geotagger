@@ -52,6 +52,6 @@ public final class R {
         public static final int hello=0x7f040000;
     }
     public static final class style {
-        public static final int Rasmus=0x7f050000;
+        public static final int CGLTheme=0x7f050000;
     }
 }

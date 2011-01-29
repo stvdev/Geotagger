@@ -28,7 +28,6 @@ public class DataActivity extends ListActivity {
 		Log.v(TAG, "Activity State: onCreate()");
 
 		super.onCreate(savedInstanceState);
-		setTheme(android.R.style.Theme_Light);
 
 		setContentView(R.layout.data);
 
