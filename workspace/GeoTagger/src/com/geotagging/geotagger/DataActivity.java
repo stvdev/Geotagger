@@ -40,7 +40,6 @@ public class DataActivity extends ListActivity {
 							DBAdapter.KEY_DATASETID, DBAdapter.KEY_NAME },
 					new int[] { android.R.id.text2, android.R.id.text1 });
 			setListAdapter(adapter);
-
 		} catch (Exception e) {
 			Log.e(TAG, "argh cursor failure! " + e.fillInStackTrace());
 		}
