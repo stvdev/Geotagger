@@ -13,10 +13,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class DataActivity extends ListActivity {
 	private DBAdapter db;
@@ -28,6 +28,8 @@ public class DataActivity extends ListActivity {
 		Log.v(TAG, "Activity State: onCreate()");
 
 		super.onCreate(savedInstanceState);
+		setTheme(android.R.style.Theme_Light);
+
 		setContentView(R.layout.data);
 
 		// Get all of the notes from the database and create the item list

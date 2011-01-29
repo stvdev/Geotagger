@@ -49,7 +49,7 @@ public class LoggingActivity extends MapActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.logging);
 
-		Toast.makeText(this, "GeoTagger Started...", Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "Logging Started...", Toast.LENGTH_SHORT).show();
 
 		// obtain title from bundle
 		b = getIntent().getExtras();
@@ -67,7 +67,7 @@ public class LoggingActivity extends MapActivity {
 			Log.d(TAG, "Inserted " + dataTitle + " with result=" + dataSetId);
 		} catch (SQLException e) {
 			Log.e(TAG, "SQL Exception:\n" + e.fillInStackTrace());
-			Toast.makeText(this, "GeoTagger unable to store in database...",
+			Toast.makeText(this, "CGL unable to store in database...",
 					Toast.LENGTH_SHORT).show();
 			return;
 		}
@@ -80,7 +80,7 @@ public class LoggingActivity extends MapActivity {
 		buttonStart.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				db.close();
-				Toast.makeText(LoggingActivity.this, "GeoTagger Stopped...",
+				Toast.makeText(LoggingActivity.this, "Logging Stopped...",
 						Toast.LENGTH_SHORT).show();
 				launchSummary();
 			}

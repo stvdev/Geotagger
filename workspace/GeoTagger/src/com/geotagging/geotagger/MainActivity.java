@@ -121,7 +121,8 @@ public class MainActivity extends Activity {
 	private void displayAbout() {
 		AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
 		alt_bld.setMessage(
-				"\nCombitech GPS Logger 2.0\n\nIt is twice as good as v1.0.")
+				"\nCombitech GPS Logger 2.0\n\nIt is twice as good as v1.0."
+						+ "\n\nCreated by:\nSteven Bergstedt &\nJohan Wennberg")
 				.setCancelable(true)
 				.setPositiveButton("Close",
 						new DialogInterface.OnClickListener() {
