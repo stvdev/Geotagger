@@ -19,25 +19,35 @@ namespace cgl2files
         const int PropertyTagGpsAltitude    = 0x6;
         const int PropertyTagGpsGpsTime     = 0x7;
         const int PropertyTagDateTime       = 0x132;
+        const int PropertyTagExifDTDigitized = 0x9004;
 
         static void Main(string[] args)
         {
+            
+            if (args.Count() != 2)
+            {
+                Console.WriteLine("Invalid argument(s) provided\n");
+                Console.WriteLine("Usage: CGL <path to GPX> <path to directory with pictures>");
+                Console.ReadKey();
+                return;
+            }
 
-            DirectoryInfo imgDir = new DirectoryInfo(@"C:\dev\pics");
+            DirectoryInfo imgDir = new DirectoryInfo(@args[1]);
             FileInfo[] imgFiles = imgDir.GetFiles();
             Console.WriteLine("Following files were found");
             CultureInfo provider = CultureInfo.InvariantCulture;
             DateTime t = new DateTime(1970, 1, 1);
 
             GPXParser gpxParser = new GPXParser();
-            PositionDataSet posDataSet = gpxParser.LoadGPXTracksV2(@"C:\dev\path.xml");
+            PositionDataSet posDataSet = gpxParser.LoadGPXTracks(@args[0]);
 
             foreach (FileInfo img in imgFiles) {
                 Console.WriteLine("File name:\t{0}, {1}", img.Name, img.FullName);
                 try
                 {
                     Image imgfile = Image.FromFile(@img.FullName);
-                    PropertyItem propItem = imgfile.GetPropertyItem(PropertyTagDateTime);
+                    //PropertyItem propItem = imgfile.GetPropertyItem(PropertyTagDateTime);
+                    PropertyItem propItem = imgfile.GetPropertyItem(PropertyTagExifDTDigitized);
                     String date = System.Text.Encoding.ASCII.GetString(propItem.Value).Replace("\0", "");
 
                     try
@@ -56,7 +66,10 @@ namespace cgl2files
                         PositionDataElem pos = posDataSet.findClosestTime(t);
                         if (pos.altitude != "-9999.99")
                         {
-                            
+                            Console.WriteLine("applying geotag with following information:\n" +
+                                "lat={0}, long={1}, alt={2}",
+                                pos.latitude, pos.longitude, pos.altitude);
+
                             // set latitude
                             propItem.Id = PropertyTagGpsLatitude;
                             propItem.Value = System.Text.Encoding.UTF8.GetBytes(pos.latitude + "\0");
@@ -75,7 +88,8 @@ namespace cgl2files
                             
                             try
                             {
-                                imgfile.Save(@img.FullName + "tmp", ImageFormat.Jpeg);
+                                String[] fname = @img.FullName.Split('.');
+                                imgfile.Save(@fname[0] +"_geotagged." + fname[1], ImageFormat.Jpeg);
                             }
                             catch (Exception)
                             {
@@ -101,7 +115,6 @@ namespace cgl2files
                 }
             }
 
-            Console.ReadKey();
         }
     }
 }

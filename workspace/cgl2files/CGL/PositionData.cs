@@ -17,7 +17,7 @@ namespace cgl2files
     {
         private List<PositionDataElem> data;
         // acceptable time offset 1h 
-        private const double acceptTimeOffset = 8000.0;
+        private const double acceptTimeOffset = 30.0;
 
         public PositionDataSet() { data = new List<PositionDataElem>(); }
 
