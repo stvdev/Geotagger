@@ -94,7 +94,7 @@ public class DataActivity extends ListActivity {
 	private void displayHelp() {
 		AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
 		alt_bld.setMessage(
-				"\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n\nHelp!\n")
+				R.string.helptext)
 				.setCancelable(true)
 				.setPositiveButton("Close",
 						new DialogInterface.OnClickListener() {

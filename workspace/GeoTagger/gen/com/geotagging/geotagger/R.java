@@ -24,18 +24,17 @@ public final class R {
         public static final int splash=0x7f02000a;
     }
     public static final class id {
-        public static final int about=0x7f07000b;
-        public static final int button_start=0x7f070006;
+        public static final int about=0x7f07000a;
+        public static final int button_start=0x7f070005;
         public static final int button_stop=0x7f070002;
-        public static final int checkbox=0x7f070007;
-        public static final int datasets=0x7f070009;
-        public static final int entry=0x7f070005;
-        public static final int help=0x7f07000a;
+        public static final int checkbox=0x7f070006;
+        public static final int datasets=0x7f070008;
+        public static final int entry=0x7f070004;
+        public static final int help=0x7f070009;
         public static final int main=0x7f070003;
         public static final int mainlayout=0x7f070000;
         public static final int mapview=0x7f070001;
-        public static final int startlogging=0x7f070008;
-        public static final int text=0x7f070004;
+        public static final int startlogging=0x7f070007;
     }
     public static final class layout {
         public static final int data=0x7f030000;
@@ -50,6 +49,7 @@ public final class R {
     public static final class string {
         public static final int app_name=0x7f040001;
         public static final int hello=0x7f040000;
+        public static final int helptext=0x7f040002;
     }
     public static final class style {
         public static final int CGLTheme=0x7f050000;

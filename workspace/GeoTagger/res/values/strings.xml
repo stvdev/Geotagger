@@ -2,4 +2,5 @@
 <resources>
 	<string name="hello">CGL</string>
 	<string name="app_name">CGL</string>
+	<string name="helptext">Getting Started\n\nNavigation in the application is done with the menu-button.\nThere are four choices (Start Logging, Datasets, Help and About).\n\n\'Menu->Starting Logging\' will display a field to enter a log title and a start-button. When the start-button is pushed a map will be displayed and logging is activated.To stop the logging simply push the stop-button.\n\n\'Menu-Datasets\' will display all logging sessions that are stored in the database. Click on an entry to either export the data to a gpx-file or to delete that entry.\n\n\'Menu-Help\' displays this text.\n\n\'Menu-About\' displays the application version number and credits.\n\n\nTroubleshooting\n\nThe map is not shown during logging.\nMake sure that the GPS receiver is enabled.\n\nWhere are my exported gpx-files?\nThe gpx-files are located in the download folder of the device.</string>
 </resources>
