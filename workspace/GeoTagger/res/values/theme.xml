@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
  <resources>
-    <style name="CGLTheme" parent="android:Theme.Light">
+    <style name="CGLTheme" parent="android:TextAppearance.Medium.Inverse">
         <item name="android:windowBackground">@drawable/bg_blue</item>
      </style>
  </resources>
